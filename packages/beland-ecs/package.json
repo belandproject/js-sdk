@@ -1,0 +1,41 @@
+{
+  "name": "beland-ecs",
+  "version": "0.0.0-dev",
+  "description": "",
+  "main": "dist/src/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && tsc -p tsconfig.json --watch"
+  },
+  "keywords": [],
+  "tsdoc": {
+    "tsdocFlavor": "AEDoc"
+  },
+  "author": "Beland",
+  "license": "Apache-2.0",
+  "files": [
+    "dist",
+    "types",
+    "docs",
+    "LICENSE",
+    "docs-yaml",
+    "artifacts",
+    "src/setupProxy.js",
+    "src/setupExport.js",
+    "src/cli/*.js",
+    "src/cli/**/*.js"
+  ],
+  "dependencies": {
+    "@beland/amd": "file:../@beland/amd",
+    "@beland/build-ecs": "file:../@beland/build-ecs",
+    "@beland/kernel": "1.0.2",
+    "@beland/posix": "^1.0.0",
+    "@beland/schemas": "^0.0.3",
+    "@beland/unity-renderer": "1.0.0-development-20220430091409.commit-dca4823",
+    "glob": "^7.1.7",
+    "http-proxy-middleware": "^2.0.3",
+    "ignore": "^5.1.8"
+  },
+  "minCliVersion": "3.9.0"
+}

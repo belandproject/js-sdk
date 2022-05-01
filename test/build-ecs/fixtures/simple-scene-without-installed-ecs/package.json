@@ -1,0 +1,16 @@
+{
+  "name": "simple-scene-without-installed-ecs",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/belandproject/js-sdk.git"
+  },
+  "license": "Apache-2.0",
+  "description": "My new Beland project",
+  "scripts": {
+    "start": "bld start",
+    "build": "../../../../packages/@beland/build-ecs/index.js",
+    "build-prod": "../../../../packages/@beland/build-ecs/index.js --production",
+    "watch": "../../../../packages/@beland/build-ecs/index.js --watch"
+  }
+}

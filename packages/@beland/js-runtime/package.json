@@ -1,0 +1,14 @@
+{
+  "name": "@beland/js-runtime",
+  "version": "0.0.0-dev",
+  "description": "JavaScript runtime definitions for Beland environments",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "files": [],
+  "license": "Apache-2.0",
+  "typings": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

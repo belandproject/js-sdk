@@ -1,0 +1,147 @@
+import * as path from 'path'
+import * as fs from 'fs'
+import { getFilesFromFolder } from './setupUtils'
+import * as express from 'express'
+
+import { sdk } from '@beland/schemas'
+
+const serveWearable = ({
+  assetJsonPath,
+  baseUrl
+}: {
+  assetJsonPath: string
+  baseUrl: string
+}) => {
+  const wearableDir = path.dirname(assetJsonPath)
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const assetJson = require(assetJsonPath)
+
+  if (!sdk.AssetJson.validate(assetJson)) {
+    const errors = (sdk.AssetJson.validate.errors || [])
+      .map((a) => `${a.dataPath} ${a.message}`)
+      .join('')
+
+    console.error(
+      `Unable to validate asset.json properly, please check it.`,
+      errors
+    )
+    throw new Error(`Invalid asset.json (${assetJsonPath})`)
+  }
+
+  const bldIgnorePath = path.resolve(wearableDir, '.bldignore')
+  let ignoreFileContent = ''
+  if (fs.existsSync(bldIgnorePath)) {
+    ignoreFileContent = fs.readFileSync(
+      path.resolve(wearableDir, '.bldignore'),
+      'utf-8'
+    )
+  }
+
+  const hashedFiles = getFilesFromFolder({
+    folder: wearableDir,
+    addOriginalPath: false,
+    ignorePattern: ignoreFileContent
+  })
+
+  const thumbnailFiltered = hashedFiles.filter(
+    ($) => $?.file === assetJson.thumbnail
+  )
+  const thumbnail =
+    thumbnailFiltered.length > 0 &&
+    thumbnailFiltered[0]?.hash &&
+    `${baseUrl}/${thumbnailFiltered[0].hash}`
+
+  return {
+    id: assetJson.id || '00000000-0000-0000-0000-000000000000',
+    rarity: assetJson.rarity,
+    i18n: [{ code: 'en', text: assetJson.name }],
+    description: assetJson.description,
+    thumbnail,
+    baseUrl,
+    name: assetJson.name || '',
+    data: {
+      category: assetJson.category,
+      replaces: [],
+      hides: [],
+      tags: [],
+      scene: hashedFiles,
+      representations: [
+        {
+          bodyShapes: ['urn:beland:off-chain:base-avatars:BaseMale'],
+          mainFile: `male/${assetJson.model}`,
+          contents: hashedFiles.map(($) => ({
+            key: `male/${$?.file}`,
+            url: `${baseUrl}/${$?.hash}`
+          })),
+          overrideHides: [],
+          overrideReplaces: []
+        },
+        {
+          bodyShapes: ['urn:beland:off-chain:base-avatars:BaseFemale'],
+          mainFile: `female/${assetJson.model}`,
+          contents: hashedFiles.map(($) => ({
+            key: `female/${$?.file}`,
+            url: `${baseUrl}/${$?.hash}`
+          })),
+          overrideHides: [],
+          overrideReplaces: []
+        }
+      ]
+    }
+  }
+}
+
+export const getAllPreviewWearables = ({
+  baseFolders,
+  baseUrl
+}: {
+  baseFolders: string[]
+  baseUrl: string
+}) => {
+  const assetPathArray: string[] = []
+  for (const wearableDir of baseFolders) {
+    const assetJsonPath = path.resolve(wearableDir, 'asset.json')
+    if (fs.existsSync(assetJsonPath)) {
+      assetPathArray.push(assetJsonPath)
+    }
+  }
+
+  const ret = []
+  for (const assetJsonPath of assetPathArray) {
+    try {
+      ret.push(serveWearable({ assetJsonPath, baseUrl }))
+    } catch (err) {
+      console.error(
+        `Couldn't mock the asset ${assetJsonPath}. Please verify the correct format and scheme.`,
+        err
+      )
+    }
+  }
+  return ret
+}
+
+export const mockPreviewWearables = (
+  app: express.Application,
+  baseFolders: string[]
+) => {
+  app.use('/preview-wearables/:id', async (req, res) => {
+    const baseUrl = `${req.protocol}://${req.get('host')}/content/contents`
+    const wearables = getAllPreviewWearables({
+      baseUrl,
+      baseFolders
+    })
+    const wearableId = req.params.id
+    return res.json({
+      ok: true,
+      data: wearables.filter((w) => w?.id === wearableId)
+    })
+  })
+
+  app.use('/preview-wearables', async (req, res) => {
+    const baseUrl = `${req.protocol}://${req.get('host')}/content/contents`
+    return res.json({
+      ok: true,
+      data: getAllPreviewWearables({ baseUrl, baseFolders })
+    })
+  })
+}

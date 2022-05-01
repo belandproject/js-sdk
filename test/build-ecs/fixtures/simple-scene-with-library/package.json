@@ -1,0 +1,29 @@
+{
+  "name": "simple-scene-with-library",
+  "version": "1.0.0",
+  "description": "My new Beland project",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/belandproject/js-sdk.git"
+  },
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "bld start",
+    "build": "../../../../packages/@beland/build-ecs/index.js",
+    "build-prod": "../../../../packages/@beland/build-ecs/index.js --production",
+    "watch": "../../../../packages/@beland/build-ecs/index.js --watch"
+  },
+  "devDependencies": {
+    "bld-test-lib-integration": "file:../bld-test-lib-integration",
+    "beland-ecs": "latest"
+  },
+  "dependencies": {
+    "eth-connect": "^6.0.0",
+    "rollup-demo-beland-lib": "file:../rollup-lib-integration"
+  },
+  "bundleDependencies": [
+    "eth-connect",
+    "bld-test-lib-integration",
+    "rollup-demo-beland-lib"
+  ]
+}

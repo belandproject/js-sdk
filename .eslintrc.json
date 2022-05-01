@@ -1,0 +1,17 @@
+{
+  "extends": "@beland/eslint-config/sdk",
+  "parserOptions": {
+    "project": [
+      "packages/@beland/legacy-ecs/tsconfig.json",
+      "packages/@beland/build-ecs/tsconfig.json",
+      "packages/@beland/beland-rollup/tsconfig.json",
+      "packages/@beland/amd/tsconfig.json",
+      "packages/beland-ecs/tsconfig.json",
+      "scripts/tsconfig.json",
+      "test/tsconfig.json"
+    ]
+  },
+  "rules": {
+    "no-param-reassign": "warn"
+  }
+}

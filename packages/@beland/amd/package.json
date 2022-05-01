@@ -1,0 +1,20 @@
+{
+  "name": "@beland/amd",
+  "version": "0.0.1-dev",
+  "description": "",
+  "main": "dist/amd.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "files": [
+    "dist",
+    "types.d.ts"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@beland/posix": "^1.0.0"
+  }
+}

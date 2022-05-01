@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
+    "declarationDir": "dist",
+    "outDir": "dist",
+    "strictNullChecks": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "stripInternal": true,
+    "moduleResolution": "node",
+    "pretty": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
+    "downlevelIteration": true,
+    "keyofStringsOnly": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "types": [
+      "env",
+      "@beland/posix"
+    ],
+    "typeRoots": [
+      "./node_modules",
+      "./types"
+    ]
+  },
+  "include": [
+    "./src"
+  ]
+}

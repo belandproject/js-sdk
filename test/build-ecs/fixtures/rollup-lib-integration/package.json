@@ -1,0 +1,16 @@
+{
+  "name": "rollup-demo-beland-lib",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/belandproject/js-sdk.git"
+  },
+  "license": "Apache-2.0",
+  "version": "1.0.0",
+  "description": "My new Beland project",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "belandLibrary": {},
+  "scripts": {
+    "build": "../../../../packages/@beland/beland-rollup/node_modules/.bin/rollup -c ../../../../packages/@beland/beland-rollup/libs.config.js"
+  }
+}

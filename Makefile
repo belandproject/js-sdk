@@ -1,0 +1,31 @@
+
+ifneq ($(CI), true)
+LOCAL_ARG = --local --verbose --diagnostics
+endif
+
+install:
+	npm i
+	cd packages/@beland/build-ecs; npm ci
+	cd packages/@beland/beland-rollup; npm ci
+	cd packages/@beland/amd; npm ci
+	cd packages/@beland/legacy-ecs; npm ci
+
+lint:
+	node_modules/.bin/eslint . --ext .ts
+
+lint-fix:
+	node_modules/.bin/eslint . --ext .ts --fix
+
+test:
+	node_modules/.bin/jest --detectOpenHandles --colors --roots "test"
+
+test-watch:
+	node_modules/.bin/jest --detectOpenHandles --colors --watch --roots "test"
+
+build:
+	node_modules/.bin/jest --detectOpenHandles --colors --runInBand --runTestsByPath scripts/build.spec.ts
+
+prepare:
+	node_modules/.bin/jest --detectOpenHandles --colors --runInBand --runTestsByPath scripts/prepare.spec.ts
+
+.PHONY: build test install

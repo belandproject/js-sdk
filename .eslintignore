@@ -1,0 +1,4 @@
+packages/@beland/js-runtime
+*.js
+*.d.ts
+test/beland-ecs/simple-scene
