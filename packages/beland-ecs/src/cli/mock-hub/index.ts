@@ -2,12 +2,12 @@ import * as path from 'path'
 import * as express from 'express'
 import { getSceneJson } from '../setupUtils'
 
-export const mockCatalyst = (app: express.Application, baseFolders: string[]) => {
+export const mockHub = (app: express.Application, baseFolders: string[]) => {
   serveFolders(app, baseFolders)
 }
 
 const serveFolders = (app: express.Application, baseFolders: string[]) => {
-  app.get('/content/contents/:hash', (req, res, next) => {
+  app.get('/ipfs/:hash', (req, res, next) => {
     if (req.params.hash && req.params.hash.startsWith('b64-')) {
       const fullPath = path.resolve(
         Buffer.from(req.params.hash.replace(/^b64-/, ''), 'base64').toString(
@@ -42,22 +42,22 @@ const serveFolders = (app: express.Application, baseFolders: string[]) => {
     }
   })
 
-  app.get('/content/entities/scene', (req, res) => {
-    if (!req.query.pointer) {
+  app.get('/v1/scenes', (req, res) => {
+    if (!req.query.pointers) {
       res.json([])
       return
     }
 
     const requestedPointers = new Set<string>(
-      req.query.pointer && typeof req.query.pointer === 'string'
-        ? [req.query.pointer as string]
-        : (req.query.pointer as string[])
+      req.query.pointers && typeof req.query.pointers === 'string'
+        ? [req.query.pointers as string]
+        : (req.query.pointers as string[])
     )
 
     const resultEntities = getSceneJson({
       baseFolders,
       pointers: Array.from(requestedPointers)
     })
-    res.json(resultEntities).end()
+    res.json({ rows: resultEntities, count: resultEntities.length }).end()
   })
 }

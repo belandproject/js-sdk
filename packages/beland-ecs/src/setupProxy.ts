@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 import * as express from 'express'
 import { createStaticRoutes } from './cli/setupUtils'
-import { mockCatalyst } from './cli/mock-catalyst'
+import { mockHub } from './cli/mock-hub'
 import { mockPreviewWearables } from './cli/wearables'
 import { sdk } from '@beland/schemas'
 
@@ -70,9 +70,9 @@ const setupProxy = (bld: any, app: express.Application) => {
   }
 
   try {
-    mockCatalyst(app, [...baseSceneFolders, ...baseWearableFolders])
+    mockHub(app, [...baseSceneFolders, ...baseWearableFolders])
   } catch (err) {
-    console.error(`Fatal error, couldn't mock the catalyst`, err)
+    console.error(`Fatal error, couldn't mock the hub`, err)
   }
 
   try {

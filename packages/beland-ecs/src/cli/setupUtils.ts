@@ -86,7 +86,7 @@ export const getFilesFromFolder = ({
     .filter(($) => !!$)
 }
 
-export function entityV3FromFolder({
+export function entityFromFolder({
   folder,
   addOriginalPath,
   ignorePattern,
@@ -133,13 +133,11 @@ export function entityV3FromFolder({
       customHashMaker
     })
     return {
-      version: 'v3',
-      type: 'scene',
       id: hashMaker(folder),
       pointers: Array.from(pointers),
       timestamp: Date.now(),
       metadata: sceneJson,
-      content: mappedFiles
+      contents: mappedFiles
     }
   }
 
@@ -167,7 +165,7 @@ export function getSceneJson({
       )
     }
 
-    return entityV3FromFolder({
+    return entityFromFolder({
       folder,
       addOriginalPath: false,
       ignorePattern: ignoreFileContent,
@@ -186,7 +184,15 @@ export function getSceneJson({
       theDeployment.pointers.forEach(($) => requestedPointers.delete($))
 
       // add the deployment to the results
-      resultEntities.push(theDeployment)
+      resultEntities.push({
+        ...theDeployment,
+        contents: theDeployment.contents.map((content: any) => {
+          return {
+            hash: 'ipfs://' + content?.hash,
+            path: content.file
+          }
+        })
+      })
     }
   }
 

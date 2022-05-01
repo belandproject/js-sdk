@@ -1,16 +1,13 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import {
-  entityV3FromFolder,
+  entityFromFolder,
   copyDir,
   getSceneJson,
   ensureWriteFile,
   ensureCopyFile,
-  downloadFile,
   shaHashMaker
 } from './cli/setupUtils'
-
-declare let URL: any
 
 const setupExport = async ({
   workDir,
@@ -125,14 +122,14 @@ const setupExport = async ({
         'utf-8'
       )
     }
-    const contentStatic = entityV3FromFolder({
+    const contentStatic = entityFromFolder({
       folder: workDir,
       addOriginalPath: true,
       ignorePattern: ignoreFileContent,
       customHashMaker: shaHashMaker
     })
-    if (contentStatic?.content) {
-      for (const $ of contentStatic?.content) {
+    if (contentStatic?.contents) {
+      for (const $ of contentStatic?.contents) {
         if ($ && $.original_path) {
           await ensureCopyFile(
             path.resolve(workDir, $.original_path),
