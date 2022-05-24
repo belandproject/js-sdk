@@ -1,6 +1,6 @@
 {
   "name": "beland-ecs",
-  "version": "0.0.4-dev",
+  "version": "0.0.5-dev",
   "description": "",
   "main": "dist/src/index.js",
   "typings": "dist/index.d.ts",
@@ -29,10 +29,10 @@
   "dependencies": {
     "@beland/amd": "0.0.1-dev",
     "@beland/build-ecs": "0.0.1-dev",
-    "@beland/kernel": "1.0.4-dev",
+    "@beland/kernel": "1.0.6-dev",
     "@beland/posix": "^1.0.0",
     "@beland/schemas": "^0.0.3",
-    "@beland/unity-renderer": "1.0.0-development-20220430091409.commit-dca4823",
+    "@beland/unity-renderer": "^1.0.0-development-20220504082325.commit-bb75108",
     "glob": "^7.1.7",
     "http-proxy-middleware": "^2.0.3",
     "ignore": "^5.1.8"
